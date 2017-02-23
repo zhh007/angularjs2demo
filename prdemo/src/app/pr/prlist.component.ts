@@ -8,6 +8,14 @@ import { ModalModule } from 'ng2-bootstrap';
     templateUrl: 'pr-list.component.html'
 })
 export class PRListComponent {
+    public totalItems: number = 64;
+    public currentPage: number = 4;
+
+    public pageChanged(event: any): void {
+        console.log('Page changed to: ' + event.page);
+        console.log('Number items per page: ' + event.itemsPerPage);
+    }
+
     SupplierList: string[] = ['', '淘宝', '京东'];
 
     list : PRModel[] = [

@@ -16,12 +16,12 @@
                 </span>
             </div>
             <div class="btn-group" role="group">
-                <a href="javascript:;" class="btn btn-success btn-sm" (click)="addModal.show()">创建</a>
+                <a href="javascript:;" class="btn btn-success btn-sm" (click)="AddForm.reset();addModal.show()">创建</a>
             </div>
         </form>
     </div>
 </div>
-<div class="row" style="margin:10px 0px">
+<div class="row" style="margin:10px 0px 0 0">
     <div class="col-lg-12">
         <table class="table table-bordered table-striped table-hover">
             <thead>
@@ -67,13 +67,19 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12 text-center">
+        <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" class="pagination-lg"
+                    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+    </div>
+</div>
 <div class="modal fade" tabindex="-1" role="dialog" bsModal #addModal="bs-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <form class="form-horizontal" #AddForm="ngForm">
                 <input type="hidden" [(ngModel)]="PR.ID" name="ID">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="DlgClose();addModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="DlgClose();addModal.hide();"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">
                         添加采购单
                     </h4>
@@ -96,8 +102,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary btn-post" value="确定" (click)="Add();addModal.hide()" [disabled]="!AddForm.form.valid">
-                    <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" (click)="DlgClose();addModal.hide()">取消</button>
+                    <input type="submit" class="btn btn-primary btn-post" value="确定" (click)="Add();addModal.hide();" [disabled]="!AddForm.form.valid">
+                    <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" (click)="AddForm.reset();DlgClose();addModal.hide();">取消</button>
                 </div>
             </form>
         </div>
