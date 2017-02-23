@@ -1,0 +1,121 @@
+<div class="row" style="margin:10px 0px">
+    <div class="col-sm-12">
+        <form class="form-inline">
+            <div class="form-group ie8-width-190">
+                <label class="control-label">
+                    供应商
+                </label>
+                <select class="form-control input-sm" id="Supplier" [(ngModel)]="Supplier" name="Supplier" style = "width: 120px">
+                    <option *ngFor="let s of SupplierList" [value]="s">{{s}}</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" placeholder="请输入关键字" />
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-primary" type="submit">搜索</button>
+                </span>
+            </div>
+            <div class="btn-group" role="group">
+                <a href="javascript:;" class="btn btn-success btn-sm" (click)="addModal.show()">创建</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" style="margin:10px 0px">
+    <div class="col-lg-12">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        申请人
+                    </th>
+                    <th>
+                        电话
+                    </th>
+                    <th>
+                        供应商
+                    </th>
+                    <th>
+                        创建时间
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pr of list">
+                    <td>
+                        {{ pr.User }}
+                    </td>
+                    <td>
+                        {{ pr.Phone }}
+                    </td>
+                    <td>
+                        {{ pr.Supplier }}
+                    </td>
+                    <td>
+                        {{ pr.CreateTime }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default" (click)="Edit(pr);addModal.show()">编辑</button>
+                        <button type="button" class="btn btn-default" (click)="selectForDelete(pr);delModal.show()">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" bsModal #addModal="bs-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal" #AddForm="ngForm">
+                <input type="hidden" [(ngModel)]="PR.ID" name="ID">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="DlgClose();addModal.hide()"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        添加采购单
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    申请人<span style="color: #F00">*</span>
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" style="width:350px" name="user" required [(ngModel)]="PR.User" #user="ngModel" />
+                                    <span class="text-danger" [hidden]="user.valid || user.pristine">
+                                        <span>请输入申请人!</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary btn-post" value="确定" (click)="Add();addModal.hide()" [disabled]="!AddForm.form.valid">
+                    <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" (click)="DlgClose();addModal.hide()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--删除提示框-->
+<div class="modal fade" style="z-index:8888" tabindex="-1" role="dialog" bsModal #delModal="bs-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-lin"></div>
+            <div class="modal-body text-center">
+                <h4>您确定要删除吗?</h4>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary btn-post" value="确定" (click)="Delete();delModal.hide()">
+                <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal" (click)="selectForDelete(null);delModal.hide()">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
