@@ -11,3 +11,7 @@ e2e/**/*.js
 e2e/**/*.js.map
 _test-output
 _temp
+/prservice/PRService/packages
+/prservice/PRService/.vs
+/prservice/PRService/PRService/bin
+/prservice/PRService/PRService/obj/Debug
