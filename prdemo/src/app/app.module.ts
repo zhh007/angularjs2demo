@@ -1,6 +1,7 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { HttpModule }    from '@angular/http';
 
 import { ModalModule } from 'ng2-bootstrap';
 import { PaginationModule } from 'ng2-bootstrap';
@@ -13,6 +14,7 @@ import {PRListComponent} from './pr/prlist.component'
   imports:      [ 
     BrowserModule, 
     FormsModule,
+    HttpModule,
     ModalModule.forRoot(),
     PaginationModule.forRoot()
     ],

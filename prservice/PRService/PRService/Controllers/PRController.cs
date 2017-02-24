@@ -2,21 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace PRService.Controllers
 {
-    public class HomeController : Controller
+    public class PRController : ApiController
     {
-        public ActionResult Index()
-        {
-            ViewBag.Title = "Home Page";
-
-            return View();
-        }
-
-        public ActionResult List(PRListRequest req)
+        [HttpPut]
+        public PRListRsponse List(PRListRequest req)
         {
             PRListRsponse resp = new Models.PRListRsponse();
             resp.PageIndex = req.PageIndex;
@@ -39,7 +34,34 @@ namespace PRService.Controllers
                 resp.List.Add(pr);
             }
 
-            return Json(resp);
+            return resp;
+        }
+
+        // GET api/<controller>
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/<controller>/5
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<controller>
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/<controller>/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/<controller>/5
+        public void Delete(int id)
+        {
         }
     }
 }

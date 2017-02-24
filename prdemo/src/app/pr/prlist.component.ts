@@ -1,15 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { PRModel } from './prmodel';
 import { ModalModule } from 'ng2-bootstrap';
+import {Observer, Observable} from "rxjs/Rx";
+
+
+
+import { PRService } from './prservice';
 
 @Component({
     moduleId: module.id,
     selector: 'pr-list',
-    templateUrl: 'pr-list.component.html'
+    templateUrl: 'pr-list.component.html',
+    providers: [PRService]
 })
-export class PRListComponent {
+export class PRListComponent implements OnInit {
     public totalItems: number = 64;
     public currentPage: number = 4;
+    list: PRModel[];
+
+    constructor(private prService: PRService) { 
+
+    }
+
+    ngOnInit(): void {
+        this.getlist();
+    }
+
+    getlist(): void {
+        var resp = this.prService.list(this.currentPage);
+        resp.forEach(p => {
+            this.list = p.List;
+        });
+    }
 
     public pageChanged(event: any): void {
         console.log('Page changed to: ' + event.page);
@@ -18,10 +40,10 @@ export class PRListComponent {
 
     SupplierList: string[] = ['', '淘宝', '京东'];
 
-    list : PRModel[] = [
-        new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "淘宝", "杭州", 500, []),
-        new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "京东", "杭州", 500, [])
-    ];
+    // list : PRModel[] = [
+    //     new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "淘宝", "杭州", 500, []),
+    //     new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "京东", "杭州", 500, [])
+    // ];
 
     powers = ['Really Smart', 'Super Flexible',
         'Super Hot', 'Weather Changer'];
