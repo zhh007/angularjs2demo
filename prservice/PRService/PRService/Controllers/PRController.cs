@@ -5,13 +5,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PRService.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class PRController : ApiController
     {
-        [HttpPut]
-        public PRListRsponse List(PRListRequest req)
+        [HttpPost]
+        public PRListRsponse List([FromBody]PRListRequest req)
         {
             PRListRsponse resp = new Models.PRListRsponse();
             resp.PageIndex = req.PageIndex;
