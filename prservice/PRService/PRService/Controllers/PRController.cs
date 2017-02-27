@@ -39,31 +39,16 @@ namespace PRService.Controllers
             return resp;
         }
 
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpPost]
+        public PRAddResponse Add([FromBody]PRAddRequest req)
         {
-            return new string[] { "value1", "value2" };
+            PRAddResponse resp = new PRAddResponse();
+
+            return resp;
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }

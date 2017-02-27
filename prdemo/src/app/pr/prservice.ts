@@ -7,7 +7,7 @@ import {PRListRsponse} from "./prlistresponse"
 
 @Injectable()
 export class PRService {
-    private _baseURL: string="http://localhost:23273/api/PR/";
+    private _baseURL: string="http://localhost:20057/api/PR/";
     constructor(private _http: Http) {
         
     }
@@ -17,6 +17,10 @@ export class PRService {
         var url = this._baseURL + "List";
 
 let headers = new Headers({ 'Content-Type': 'application/json'});
+
+// let headers = new Headers({
+//     'Content-Type' :'application/x-www-form-urlencoded'
+// });
 let options = new RequestOptions({ headers: headers });
 
 //params.toString()
@@ -26,14 +30,21 @@ var d = {
     }
 var content = JSON.stringify(d);
 
+// var params = new URLSearchParams();
+// params.set('PageIndex', pageindex + '');
+// params.set('PageSize', '10');
+// content = params.toString();
+
+return this._http.post(url,content,options).map(responce => responce.json());
+
 //     let options = new RequestOptionsArgs({
 //     headers: headers,
 //     //search: params
 //     body: content
 // });
 
-url = 'http://localhost:20057/home/list';
-        return this._http.post(url,content,options).map(responce => responce.json());
+        //url = 'http://localhost:20057/home/list';
+        //return this._http.post(url,content,options).map(responce => responce.json());
     }
 
     // private extractData(res: PRListRsponse) {

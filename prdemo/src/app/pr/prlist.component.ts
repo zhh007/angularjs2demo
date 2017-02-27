@@ -1,9 +1,8 @@
 import { Component, OnInit  } from '@angular/core';
 import { PRModel } from './prmodel';
+import  {PRItemModel} from './pritemmodel'
 import { ModalModule } from 'ng2-bootstrap';
 import {Observer, Observable} from "rxjs/Rx";
-
-
 
 import { PRService } from './prservice';
 
@@ -15,8 +14,9 @@ import { PRService } from './prservice';
 })
 export class PRListComponent implements OnInit {
     public totalItems: number = 64;
-    public currentPage: number = 4;
+    public currentPage: number = 1;
     list: PRModel[];
+    SupplierList: string[] = ['', '淘宝', '京东'];
 
     constructor(private prService: PRService) { 
 
@@ -30,26 +30,18 @@ export class PRListComponent implements OnInit {
         var resp = this.prService.list(this.currentPage);
         resp.forEach(p => {
             this.list = p.List;
+            this.currentPage = p.PageIndex;
+            this.totalItems = p.Total;
         });
     }
 
     public pageChanged(event: any): void {
-        console.log('Page changed to: ' + event.page);
-        console.log('Number items per page: ' + event.itemsPerPage);
+        //console.log('Page changed to: ' + event.page);
+        //console.log('Number items per page: ' + event.itemsPerPage);
+        this.currentPage = event.page;
+        this.getlist();
     }
 
-    SupplierList: string[] = ['', '淘宝', '京东'];
-
-    // list : PRModel[] = [
-    //     new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "淘宝", "杭州", 500, []),
-    //     new PRModel(1, "市场1部", "张三", "13800001111", "2017-2-22", false, "京东", "杭州", 500, [])
-    // ];
-
-    powers = ['Really Smart', 'Super Flexible',
-        'Super Hot', 'Weather Changer'];
-    //model = new Hero(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
-    submitted = false;
-    onSubmit() { this.submitted = true; }
     // TODO: Remove this when we're done
     //get diagnostic() { return JSON.stringify(this.model); }
 
@@ -84,5 +76,18 @@ export class PRListComponent implements OnInit {
             this.list.splice(this.list.indexOf(this.prForDelete), 1);
         }
     }
+
+    currentitem: PRItemModel = new PRItemModel(0, 0, "", 0, 0, 0, "");
+    selectPRItem(item: PRItemModel){
+        this.currentitem = item;
+    }
+
+    AddPRItem(){
+        this.PR.Items.push(this.currentitem);
+        this.currentitem = new PRItemModel(0, 0, "", 0, 0, 0, "");
+    }
+
+
+
 
 }

@@ -34,4 +34,14 @@ namespace PRService.Models
         public decimal Amount { get; set; }
         public string Remark { get; set; }
     }
+
+    public class PRAddRequest : PRModel
+    {
+
+    }
+
+    public class PRAddResponse
+    {
+
+    }
 }

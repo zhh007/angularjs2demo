@@ -1,0 +1,11 @@
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\obj\Debug\ng2Demo.Data.csprojResolveAssemblyReference.cache
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\ng2Demo.Data.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\ng2Demo.Data.pdb
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\APP.Infrastructure.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\EntityFramework.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\EntityFramework.SqlServer.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\log4net.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\Microsoft.Practices.Unity.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\obj\Debug\ng2Demo.Data.dll
+D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Data\obj\Debug\ng2Demo.Data.pdb
