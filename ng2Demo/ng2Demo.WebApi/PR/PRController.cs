@@ -19,9 +19,9 @@ namespace ng2Demo.WebApi.PR
         }
 
         [HttpPost]
-        public PRListRsponse List([FromBody]PRListRequest req)
+        public PRListResponse List([FromBody]PRListRequest req)
         {
-            PRListRsponse resp = new PRListRsponse();
+            PRListResponse resp = new PRListResponse();
             resp.PageIndex = req.PageIndex;
 
             int total = 0;
@@ -75,7 +75,7 @@ namespace ng2Demo.WebApi.PR
         }
     }
 
-    public class PRListRsponse
+    public class PRListResponse
     {
         public int PageIndex { get; set; }
 
@@ -83,7 +83,7 @@ namespace ng2Demo.WebApi.PR
 
         public IList<PRDTO> List { get; set; }
 
-        public PRListRsponse()
+        public PRListResponse()
         {
             this.List = new List<PRDTO>();
         }
@@ -97,5 +97,27 @@ namespace ng2Demo.WebApi.PR
     public class PRAddResponse
     {
 
+    }
+
+    public class PermExpandResult
+    {
+        public List<PermScopeItem> Scopes { get; set; }
+        public List<PermScopeItemOperation> Operations { get; set; }
+    }
+
+    public class PermScopeItem
+    {
+        public string ScopeId { get; set; }
+        public string ScopeName { get; set; }
+        public string ParentId { get; set; }
+    }
+
+    public class PermScopeItemOperation
+    {
+        public string Name { get; set; }
+        /// <summary>
+        /// 跟PermValue对应，如菜单中定义的编辑权限值是2，这里也应该设置为2
+        /// </summary>
+        public long Value { get; set; }
     }
 }
