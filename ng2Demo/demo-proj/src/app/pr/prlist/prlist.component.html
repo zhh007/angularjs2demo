@@ -1,3 +1,27 @@
+<div class="row" style="margin:10px 0px">
+    <div class="col-sm-12">
+        <form class="form-inline">
+            <div class="form-group ie8-width-190">
+                <label class="control-label">
+                    供应商
+                </label>
+                <select class="form-control input-sm" id="Supplier" [(ngModel)]="Supplier" (change)="searchChanged($event)" name="Supplier" style = "width: 120px">
+                    <option *ngFor="let s of SupplierList" [value]="s.Value">{{s.Name}}</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" placeholder="请输入关键字" name="searchText" [(ngModel)]="searchText" (keyup)="searchChanged($event)" (change)="searchChanged($event)" />
+                <span class="input-group-btn">
+                    <button class="btn btn-sm btn-primary" type="submit" (click)="searchChanged()">搜索</button>
+                </span>
+            </div>
+            <div class="btn-group" role="group">
+                <a href="javascript:;" class="btn btn-success btn-sm" (click)="gotoAdd()">创建</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row" style="margin:10px 0px 0 0">
     <div class="col-lg-12">
         <table class="table table-bordered table-striped table-hover">
@@ -46,7 +70,7 @@
 
 <div class="row">
     <div class="col-md-12 text-center">
-        <pagination [boundaryLinks]="true" [totalItems]="Total" (pageChanged)="pageChanged($event)" class="pagination"
+        <pagination [boundaryLinks]="true" [totalItems]="Total" [(ngModel)]="PageIndex" (pageChanged)="pageChanged($event)" class="pagination"
             previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
     </div>
 </div>

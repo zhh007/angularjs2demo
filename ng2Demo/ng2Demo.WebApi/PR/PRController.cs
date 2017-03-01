@@ -2,6 +2,7 @@
 using ng2Demo.Interface;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,9 +59,19 @@ namespace ng2Demo.WebApi.PR
             return resp;
         }
 
+        [HttpPost]
+        public GetSupplierResponse GetSupplierList()
+        {
+            GetSupplierResponse resp = new GetSupplierResponse();
 
+            resp.List.Add(new NameValueItem { Name = "华为", Value = "huawei" });
+            resp.List.Add(new NameValueItem { Name = "OPPO", Value = "oppo" });//Add("OPPO", "oppo");
+            resp.List.Add(new NameValueItem { Name = "VIVO", Value = "vivo" });//Add("VIVO", "vivo");
+            resp.List.Add(new NameValueItem { Name = "小米", Value = "mi" });//Add("小米", "mi");
+            resp.List.Add(new NameValueItem { Name = "魅族", Value = "meizu" });//Add("魅族", "meizu");
 
-
+            return resp;
+        }
     }
 
     public class PRListRequest
@@ -99,25 +110,40 @@ namespace ng2Demo.WebApi.PR
 
     }
 
-    public class PermExpandResult
+    public class GetSupplierResponse
     {
-        public List<PermScopeItem> Scopes { get; set; }
-        public List<PermScopeItemOperation> Operations { get; set; }
+        public List<NameValueItem> List { get; set; }
+        public GetSupplierResponse()
+        {
+            List = new List<PR.NameValueItem>();
+        }
     }
 
-    public class PermScopeItem
-    {
-        public string ScopeId { get; set; }
-        public string ScopeName { get; set; }
-        public string ParentId { get; set; }
-    }
-
-    public class PermScopeItemOperation
+    public class NameValueItem
     {
         public string Name { get; set; }
-        /// <summary>
-        /// 跟PermValue对应，如菜单中定义的编辑权限值是2，这里也应该设置为2
-        /// </summary>
-        public long Value { get; set; }
+        public string Value { get; set; }
     }
+
+    //public class PermExpandResult
+    //{
+    //    public List<PermScopeItem> Scopes { get; set; }
+    //    public List<PermScopeItemOperation> Operations { get; set; }
+    //}
+
+    //public class PermScopeItem
+    //{
+    //    public string ScopeId { get; set; }
+    //    public string ScopeName { get; set; }
+    //    public string ParentId { get; set; }
+    //}
+
+    //public class PermScopeItemOperation
+    //{
+    //    public string Name { get; set; }
+    //    /// <summary>
+    //    /// 跟PermValue对应，如菜单中定义的编辑权限值是2，这里也应该设置为2
+    //    /// </summary>
+    //    public long Value { get; set; }
+    //}
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Dependencies;
 
 namespace ng2Demo.Web
@@ -21,6 +22,8 @@ namespace ng2Demo.Web
                 , WithMappings.FromMatchingInterface, WithName.Default, overwriteExistingMappings: true,
                 getLifetimeManager:(t) => new HierarchicalLifetimeManager());
 
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
             // Web API 配置和服务
 
             // Web API 路由
