@@ -1,24 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observer, Observable } from "rxjs/Rx";
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalModule } from 'ng2-bootstrap';
 
 import { PRService } from '../pr.service';
 import { PRModel } from '../model/pr.model';
 import { PRItemModel } from '../model/pritem.model'
 
+import {PrItemAddComponent} from './pritem-add.component'
+
 @Component({
   selector: 'app-pr-add',
   templateUrl: './pr-add.component.html',
   styleUrls: ['./pr-add.component.css'],
-  providers: [PRService]
+  providers: [PRService],
+  //directives:[PrItemAddComponent]
 })
 export class PrAddComponent implements OnInit {
+  @ViewChild('dlg') dlg:PrItemAddComponent;
   public mainForm: FormGroup;
   public prInfo: PRModel = new PRModel();
   public currentitem: PRItemModel = new PRItemModel();
-  public Items:PRItemModel[] = new Array<PRItemModel>();
+  public Items: PRItemModel[] = new Array<PRItemModel>();
 
   public formErrors = {
     'Deptment': '',
@@ -53,7 +57,8 @@ export class PrAddComponent implements OnInit {
   constructor(
     public router: Router,
     public activeRoute: ActivatedRoute,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    //private dlg: PrItemAddComponent
   ) { }
 
   ngOnInit() {
@@ -100,11 +105,38 @@ export class PrAddComponent implements OnInit {
           Validators.minLength(8),
           Validators.maxLength(50)
         ]
-      ]
+      ],
+      "IsPrePay": 'True',
+      "Goods": this.fb.array([])
     });
+    this.setItems(this.Items);
     this.mainForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
     this.onValueChanged();
+  }
+
+  setItems(items: PRItemModel[]) {
+    const item_group = items.map(item => this.fb.group(item));
+    const formArray = this.fb.array(item_group);
+    this.mainForm.setControl('Goods', formArray);
+  }
+
+  getItems(): FormArray {
+    return this.mainForm.get('Goods') as FormArray;
+  };
+
+  delItem(index: number): void {
+    const arrayControl = <FormArray>this.mainForm.controls['Goods'];
+    arrayControl.removeAt(index);
+  }
+
+  showAddItemDlg(): void {
+    this.dlg.showChildModal();
+      // const arrayControl = <FormArray>this.mainForm.controls['Goods'];
+      // let newGroup = this.fb.group({
+      //     // Fill this in identically to the one in ngOnInit
+      // }
+      // arrayControl.push(newGroup);
   }
 
   onValueChanged(data?: any) {

@@ -64,14 +64,14 @@
               是否预付款<span style="color: #F00">*</span>
           </label>
         <div class="col-sm-9">
-          <label class="radio-inline"><input type="radio" name="isprepay" value="True" checked="checked"> 是 </label>
-          <label class="radio-inline"><input type="radio" name="isprepay" value="False"> 否 </label>
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="True" checked="checked"> 是 </label>
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="False"> 否 </label>
         </div>
       </div>
       <hr />
       <div>
-        <div><button (click)="AddItemForm.reset();addItemModal.show();">新增商品</button></div>
-        <table style="width:100%">
+        <div><button (click)="showAddItemDlg();">新增商品</button></div>
+        <table formArrayName="Goods" style="width:100%">
           <tr>
             <th>商品名称</th>
             <th>单价</th>
@@ -79,7 +79,7 @@
             <th>价格</th>
             <th>备注</th>
           </tr>
-          <tr *ngFor="let p of Items">
+          <tr *ngFor="let p of mainForm.controls['Goods'].controls; let i=index" [formGroupName]="i">
             <td>
               {{ p.Name }}
             </td>
@@ -97,7 +97,7 @@
             </td>
             <td>
               <button type="button" class="btn btn-default">编辑</button>
-              <button type="button" class="btn btn-default">删除</button>
+              <button type="button" class="btn btn-default" (click)="delItem(i)">删除</button>
             </td>
           </tr>
         </table>
@@ -112,42 +112,4 @@
     </form>
   </div>
 </div>
-<!--新增商品-->
-<div class="modal fade" tabindex="-1" role="dialog" bsModal #addItemModal="bs-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form class="form-horizontal" #AddItemForm="ngForm">
-        <input type="hidden" [(ngModel)]="currentitem.ID" name="ID">
-        <input type="hidden" [(ngModel)]="currentitem.PRID" name="PRID">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="addItemModal.hide();"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">
-            添加采购商品
-          </h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">
-                    商品名称<span style="color: #F00">*</span>
-                </label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" style="width:350px" name="name" required [(ngModel)]="currentitem.Name" #name="ngModel"
-                  />
-                  <span class="text-danger" [hidden]="name.valid || name.pristine">
-                      <span>请输入商品名称!</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <input type="submit" class="btn btn-primary btn-post" value="确定" [disabled]="!AddItemForm.form.valid">
-          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+<pritem-add #dlg></pritem-add>

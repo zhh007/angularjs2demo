@@ -1,0 +1,38 @@
+<!--新增商品-->
+<div class="modal fade" tabindex="-1" role="dialog" bsModal #dlg="bs-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="form-horizontal" [formGroup]="mainForm" (ngSubmit)="doSave()" novalidate>
+        <!--<input type="hidden" [(ngModel)]="currentitem.ID" name="ID">
+        <input type="hidden" [(ngModel)]="currentitem.PRID" name="PRID">-->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="addItemModal.hide();"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">
+            添加采购商品
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    商品名称<span style="color: #F00">*</span>
+                </label>
+                <div class="col-sm-10">
+                  <input required formControlName="Name" type="text" class="form-control" style="width:350px" />
+                  <span *ngIf="formErrors.Name" class="text-danger">
+                        {{ formErrors.Name }}
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input [disabled]="mainForm.invalid" type="submit" class="btn btn-primary btn-post" value="确定">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

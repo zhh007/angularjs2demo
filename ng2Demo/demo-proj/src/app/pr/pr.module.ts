@@ -6,14 +6,18 @@ import { RouterModule } from '@angular/router';
 
 import { ModalModule } from 'ng2-bootstrap';
 import { AlertModule } from 'ng2-bootstrap';
-import { PaginationModule } from 'ng2-bootstrap';
+import { PaginationModule, ModalDirective } from 'ng2-bootstrap';
 
-import { PrlistComponent } from './prlist/prlist.component';
+
+
 
 import { PRService } from './pr.service';
 
 import { prRoutes } from './pr.routes';
+
+import { PrlistComponent } from './prlist/prlist.component';
 import { PrAddComponent } from './pr-add/pr-add.component';
+import { PrItemAddComponent } from './pr-add/pritem-add.component'
 
 @NgModule({
   imports: [
@@ -26,7 +30,11 @@ import { PrAddComponent } from './pr-add/pr-add.component';
     PaginationModule.forRoot(),
     AlertModule.forRoot()
   ],
-  declarations: [PrlistComponent, PrAddComponent],
+  declarations: [
+    PrlistComponent,
+    PrAddComponent,
+    PrItemAddComponent
+  ],
   providers: [
     PRService
   ]
