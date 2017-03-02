@@ -17,3 +17,6 @@ _temp
 /prservice/PRService/PRService/obj/Debug
 /ng2Demo/packages
 /ng2Demo/.vs
+
+ng2Demo/**/*.dll
+ng2Demo/**/*.pdb

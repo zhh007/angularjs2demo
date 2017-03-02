@@ -26,7 +26,7 @@ namespace ng2Demo.WebApi.PR
             resp.PageIndex = req.PageIndex;
 
             int total = 0;
-            var list = PRService.GetPagedList("", req.PageIndex, 10, out total);
+            var list = PRService.GetPagedList("", req.PageIndex, req.PageSize, out total);
 
             resp.List = list;
             resp.Total = total;
@@ -56,6 +56,27 @@ namespace ng2Demo.WebApi.PR
         {
             PRAddResponse resp = new PRAddResponse();
 
+            PRService.Add(req as PRDTO);
+
+            return resp;
+        }
+
+        [HttpPost]
+        public PRAddResponse Update([FromBody]PRAddRequest req)
+        {
+            PRAddResponse resp = new PRAddResponse();
+
+            PRService.Update(req as PRDTO);
+
+            return resp;
+        }
+
+        [HttpPost]
+        public PRGetResponse Get([FromBody]PRGetRequest req)
+        {
+            PRGetResponse resp = new PR.PRGetResponse();
+            var dto = PRService.GetByID(req.ID);
+            resp.data = dto;
             return resp;
         }
 
@@ -103,6 +124,16 @@ namespace ng2Demo.WebApi.PR
     public class PRAddRequest : PRDTO
     {
 
+    }
+
+    public class PRGetRequest
+    {
+        public int ID { get; set; }
+    }
+
+    public class PRGetResponse
+    {
+        public PRDTO data { get; set; }
     }
 
     public class PRAddResponse

@@ -39,9 +39,9 @@ namespace ng2Demo.Data.Models.Mapping
             this.Property(t => t.Remark).HasColumnName("Remark");
 
             // Relationships
-            //this.HasOptional(t => t.ModifyUser)
-            //    .WithMany(t => t.ModifyPRItems)
-            //    .HasForeignKey(d => d.ModifyUserID);
+            this.HasRequired(t => t.Parent)
+                .WithMany(t => t.Items)
+                .HasForeignKey(d => d.PRID);
         }
     }
 }

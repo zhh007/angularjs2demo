@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observer, Observable } from "rxjs/Rx";
 import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -21,7 +22,6 @@ export class PrAddComponent implements OnInit {
   @ViewChild('dlg') dlg: PrItemAddComponent;
   public mainForm: FormGroup;
   public prInfo: PRModel = new PRModel();
-  //public currentitem: PRItemModel = new PRItemModel();
   public itemIndex: number = -1;
   public Items: PRItemModel[] = new Array<PRItemModel>();
 
@@ -56,20 +56,31 @@ export class PrAddComponent implements OnInit {
   };
 
   constructor(
+    private location: Location,
     public router: Router,
     public activeRoute: ActivatedRoute,
     public fb: FormBuilder,
-    //private dlg: PrItemAddComponent
+    public prService: PRService
   ) { }
 
   ngOnInit() {
+    this.activeRoute.params.subscribe(params => {
+      console.log(params);
+      var prid = params["id"];
+      if (prid) {
+        this.loadData(prid);
+      }
+    });
     this.buildForm();
   }
 
   buildForm(): void {
     this.mainForm = this.fb.group({
+      "ID": [
+        '0', []
+      ],
       "Deptment": [
-        this.prInfo.Deptment,
+        '',
         [
           Validators.required,
           Validators.minLength(2),
@@ -77,7 +88,7 @@ export class PrAddComponent implements OnInit {
         ]
       ],
       "User": [
-        this.prInfo.User,
+        '',
         [
           Validators.required,
           Validators.minLength(2),
@@ -85,14 +96,14 @@ export class PrAddComponent implements OnInit {
         ]
       ],
       "Phone": [
-        this.prInfo.Phone,
+        '',
         [
           Validators.required,
           //Validators.pattern("/^1\d{10}$/")
         ]
       ],
       "Supplier": [
-        this.prInfo.Supplier,
+        '',
         [
           Validators.required,
           Validators.minLength(2),
@@ -100,20 +111,40 @@ export class PrAddComponent implements OnInit {
         ]
       ],
       "SupplierAddress": [
-        this.prInfo.SupplierAddress,
+        '',
         [
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(50)
         ]
       ],
-      "IsPrePay": 'True',
+      "IsPrePay": 'true',
       //"Goods": this.fb.array([])
     });
     //this.setItems(this.Items);
     this.mainForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
     this.onValueChanged();
+  }
+
+  loadData(id: number) {
+    return this.prService.get(id).subscribe(
+      res => {
+        this.mainForm.reset({
+          ID: res.ID,
+          Deptment: res.Deptment,
+          User: res.User,
+          Phone: res.Phone,
+          //CreateTime: res.CreateTime,
+          IsPrePay: res.IsPrePay ? 'true' : 'false',
+          Supplier: res.Supplier,
+          SupplierAddress: res.SupplierAddress,
+        });
+        this.Items = res.Items;
+      },
+      error => { console.log(error) },
+      () => { }
+    );
   }
 
   // setItems(items: PRItemModel[]) {
@@ -147,22 +178,27 @@ export class PrAddComponent implements OnInit {
   }
 
   doSave() {
-    // if (this.userForm.valid) {
-    //   this.userInfo = this.userForm.value;
-    //   this.userRegisterService.register(this.userInfo)
-    //     .subscribe(
-    //       data => {
-    //         this.router.navigateByUrl("home");
-    //       },
-    //       error => {
-    //         this.formErrors.formError = error.message;
-    //         console.error(error);
-    //       }
-    //     );
-    // }else{
-    //    this.formErrors.formError = "存在不合法的输入项，请检查。";
-    // }
-    // console.log(this.userInfo);
+    if (this.mainForm.valid) {
+      const formModel = this.mainForm.value;
+      formModel.Items = this.Items.map(
+        (item: PRItemModel) => Object.assign({}, item)
+      );
+
+      console.log(formModel);
+      this.prService.save(formModel).subscribe(
+        data => {
+          this.router.navigateByUrl("pr/list/1");
+        },
+        error => {
+          //this.formErrors.formError = error.message;
+          console.error(error);
+        }
+      );
+    } else {
+      //this.formErrors.formError = "存在不合法的输入项，请检查。";
+      console.log(this.prInfo);
+    }
+
   }
 
   addItem(): void {
@@ -189,4 +225,7 @@ export class PrAddComponent implements OnInit {
     }
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 }

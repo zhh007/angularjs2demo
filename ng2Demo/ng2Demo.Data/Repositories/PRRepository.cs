@@ -5,6 +5,8 @@ using System.Text;
 using ng2Demo.Data.Models;
 using APP.Infrastructure.Data;
 using an2Demo.Data;
+using System.Linq.Expressions;
+using System.Data.Entity;
 
 namespace ng2Demo.Data.Repositories
 {
@@ -15,10 +17,16 @@ namespace ng2Demo.Data.Repositories
         {
 
         }
+
+        public PR GetIncluceItems(Expression<Func<PR, bool>> where)
+        {
+            return DataContext.Set<PR>()
+                .Include(path => path.Items).Where(where).FirstOrDefault();
+        }
     }
 
     public interface IPRRepository : IRepository<PR>
     {
-
+        PR GetIncluceItems(Expression<Func<PR, bool>> where);
     }
 }

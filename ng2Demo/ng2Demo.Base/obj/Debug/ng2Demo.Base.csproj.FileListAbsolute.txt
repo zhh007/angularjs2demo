@@ -1,5 +1,0 @@
-D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Base\bin\Debug\ng2Demo.Base.dll
-D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Base\bin\Debug\ng2Demo.Base.pdb
-D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Base\obj\Debug\ng2Demo.Base.csprojResolveAssemblyReference.cache
-D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Base\obj\Debug\ng2Demo.Base.dll
-D:\SourceCode\GitHub\angularjs2demo\ng2Demo\ng2Demo.Base\obj\Debug\ng2Demo.Base.pdb

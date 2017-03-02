@@ -17,6 +17,7 @@ import {NameValueItem} from '../model/namevalueitem.model';
 export class PrlistComponent implements OnInit {
   public Total: number = 0;
   public PageIndex: number = 1;
+  public PageSize :number = 10;
   public List: Array<PRModel>;
   public Supplier:string;
   public SupplierList: NameValueItem[] = null;
@@ -33,8 +34,9 @@ export class PrlistComponent implements OnInit {
   ngOnInit() {
     this.activeRoute.params.subscribe(params => {
       // 这里可以从路由里面获取URL参数
+      //this.PageIndex = parseInt(params["page"], 10);
       console.log(params);
-      this.loadData(this.searchText, this.PageIndex);
+      this.loadData(this.searchText, params["page"]);
     });
 
     this.prService.getsupplier().subscribe(
@@ -56,10 +58,11 @@ export class PrlistComponent implements OnInit {
   }
 
   public loadData(searchText: string, page: number) {
-    return this.prService.list(page).subscribe(
+    return this.prService.list(page, this.PageSize).subscribe(
       res => {
         this.Total = res.Total;
         this.List = res.List;
+        this.PageIndex = res.PageIndex;
       },
       error => { console.log(error) },
       () => { }

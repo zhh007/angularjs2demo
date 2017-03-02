@@ -52,6 +52,12 @@ namespace ng2Demo.DTO
         /// </summary>
         public DateTime CreateTime { get; set; }
 
+        public List<PRItemDTO> Items { get; set; }
+
+        public PRDTO()
+        {
+            this.Items = new List<PRItemDTO>();
+        }
     }
     
 }

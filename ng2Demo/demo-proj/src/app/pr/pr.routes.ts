@@ -14,6 +14,10 @@ export const prRoutes=[
 		component:PrlistComponent
 	},
 	{ 
+		path: 'add/:id', 
+		component: PrAddComponent 
+	},
+	{ 
 		path: 'add', 
 		component: PrAddComponent 
 	}

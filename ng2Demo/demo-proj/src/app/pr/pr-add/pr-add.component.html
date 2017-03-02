@@ -4,6 +4,7 @@
 <div class="row">
   <div class="col-md-12">
     <form class="form-horizontal" [formGroup]="mainForm" (ngSubmit)="doSave()" novalidate>
+      <input type="hidden" formControlName="ID">
       <div class="form-group" [ngClass]="{'has-error': formErrors.User }">
         <label class="col-sm-3 control-label">
               申请人<span style="color: #F00">*</span>
@@ -64,13 +65,13 @@
               是否预付款<span style="color: #F00">*</span>
           </label>
         <div class="col-sm-9">
-          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="True" checked="checked"> 是 </label>
-          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="False"> 否 </label>
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="true" checked="checked"> 是 </label>
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="false"> 否 </label>
         </div>
       </div>
       <hr />
       <div>
-        <div><button (click)="addItem();">新增商品</button></div>
+        <div><a (click)="addItem();">新增商品</a></div>
         <table style="width:100%">
           <tr>
             <th>商品名称</th>
@@ -105,8 +106,8 @@
       <hr />
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-8">
-        <input [disabled]="mainForm.invalid" type="submit" class="btn btn-primary btn-post" value="确定">
-        <button type="button" class="btn btn-default">取消</button>
+          <input [disabled]="mainForm.invalid" type="submit" class="btn btn-primary btn-post" value="确定">
+          <button type="button" class="btn btn-default" (click)="goBack()">取消</button>
         </div>
       </div>
     </form>

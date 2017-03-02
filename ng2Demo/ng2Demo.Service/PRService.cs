@@ -42,9 +42,17 @@ namespace ng2Demo.Service
 
         public void Add(PRDTO dto)
         {
-            var model = Mapper.Map<PRDTO, PR>(dto);
-            fPRRepository.Add(model);
-            dbContext.SaveChanges();
+            try
+            {
+                var model = Mapper.Map<PRDTO, PR>(dto);
+                model.CreateTime = DateTime.Now;
+                fPRRepository.Add(model);
+                dbContext.SaveChanges();
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                throw;
+            }
         }
 
         public void Update(PRDTO dto)
@@ -59,6 +67,31 @@ namespace ng2Demo.Service
             model.SupplierAddress = dto.SupplierAddress;
             model.Total = dto.Total;
 
+            if (dto.Items != null && dto.Items.Count > 0)
+            {
+                var items = model.Items;
+                var delItems = model.Items.Where(p => !dto.Items.Any(x => x.ID == p.ID)).ToList();
+                foreach (var newitem in dto.Items)
+                {
+                    var dbitem = items.FirstOrDefault(p => p.ID == newitem.ID);
+                    if (dbitem == null)
+                    {
+                        dbitem = new PRItem();
+                        dbitem.PRID = model.ID;
+                        model.Items.Add(dbitem);
+                    }
+                    dbitem.Name = newitem.Name;
+                    dbitem.Price = newitem.Price;
+                    dbitem.Count = newitem.Count;
+                    dbitem.Amount = newitem.Amount;
+                    dbitem.Remark = newitem.Remark;
+                }
+            }
+            else
+            {
+                model.Items.Clear();
+            }
+
             dbContext.SaveChanges();
         }
 
@@ -70,7 +103,7 @@ namespace ng2Demo.Service
         
         public PRDTO GetByID(int ID)
         {
-            var model = fPRRepository.Get(p => p.ID == ID);
+            var model = fPRRepository.GetIncluceItems(p => p.ID == ID);
             return Mapper.Map<PR, PRDTO>(model);
         }
 

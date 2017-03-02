@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using an2Demo.Data;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,11 @@ namespace ng2Demo.Web
 
             container.RegisterTypes(AllClasses.FromLoadedAssemblies()
                 .Where(p => p.Namespace.Contains("ng2Demo.Service") || p.Namespace.Contains("ng2Demo.Data"))
-                , WithMappings.FromMatchingInterface, WithName.Default, overwriteExistingMappings: true,
-                getLifetimeManager:(t) => new HierarchicalLifetimeManager());
+                , WithMappings.FromMatchingInterface, WithName.Default, overwriteExistingMappings: true
+                //,getLifetimeManager:(t) => new TransientLifetimeManager()
+                );
+            //container.RegisterType(typeof(ng2DemoContext), typeof(ng2DemoContext), "", new PerThreadLifetimeManager());
+            container.RegisterType<ng2DemoContext, ng2DemoContext>(new PerThreadLifetimeManager());
 
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);

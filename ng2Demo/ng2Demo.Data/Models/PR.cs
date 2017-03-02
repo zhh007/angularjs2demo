@@ -52,11 +52,11 @@ namespace ng2Demo.Data.Models
         /// </summary>
         public DateTime CreateTime { get; set; }
 
-        public virtual ICollection<PRItem> Children { get; set; }
+        public virtual ICollection<PRItem> Items { get; set; }
 
         public PR()
         {
-            this.Children = new List<PRItem>();
+            this.Items = new List<PRItem>();
         }
     }
 }
