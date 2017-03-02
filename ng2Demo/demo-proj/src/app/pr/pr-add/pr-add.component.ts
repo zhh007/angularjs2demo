@@ -21,7 +21,8 @@ export class PrAddComponent implements OnInit {
   @ViewChild('dlg') dlg: PrItemAddComponent;
   public mainForm: FormGroup;
   public prInfo: PRModel = new PRModel();
-  public currentitem: PRItemModel = new PRItemModel();
+  //public currentitem: PRItemModel = new PRItemModel();
+  public itemIndex: number = -1;
   public Items: PRItemModel[] = new Array<PRItemModel>();
 
   public formErrors = {
@@ -165,13 +166,14 @@ export class PrAddComponent implements OnInit {
   }
 
   addItem(): void {
-    this.currentitem = null;
+    this.itemIndex = -1;
     this.dlg.show();
   }
 
-  editItem(item: PRItemModel): void {
-    this.currentitem = item;
-    this.dlg.edit(item);
+  editItem(index: number): void {
+    this.itemIndex = index;
+    var cur = this.Items[index];
+    this.dlg.edit(cur);
   }
 
   delItem(index: number): void {
@@ -179,11 +181,11 @@ export class PrAddComponent implements OnInit {
   }
 
   onPRItemSave(item: PRItemModel): void {
-    debugger;
-    if (this.currentitem == null) {
+    if (this.itemIndex == -1) {
       this.Items.push(item);
     } else {
-      this.currentitem = item;
+      this.Items[this.itemIndex] = item;
+      this.itemIndex = -1;
     }
   }
 
