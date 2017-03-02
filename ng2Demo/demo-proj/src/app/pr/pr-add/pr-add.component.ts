@@ -1,4 +1,4 @@
-import { Component,ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observer, Observable } from "rxjs/Rx";
 import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { PRService } from '../pr.service';
 import { PRModel } from '../model/pr.model';
 import { PRItemModel } from '../model/pritem.model'
 
-import {PrItemAddComponent} from './pritem-add.component'
+import { PrItemAddComponent } from './pritem-add.component'
 
 @Component({
   selector: 'app-pr-add',
@@ -18,7 +18,7 @@ import {PrItemAddComponent} from './pritem-add.component'
   //directives:[PrItemAddComponent]
 })
 export class PrAddComponent implements OnInit {
-  @ViewChild('dlg') dlg:PrItemAddComponent;
+  @ViewChild('dlg') dlg: PrItemAddComponent;
   public mainForm: FormGroup;
   public prInfo: PRModel = new PRModel();
   public currentitem: PRItemModel = new PRItemModel();
@@ -87,7 +87,7 @@ export class PrAddComponent implements OnInit {
         this.prInfo.Phone,
         [
           Validators.required,
-          Validators.pattern("/^1\d{10}$/")
+          //Validators.pattern("/^1\d{10}$/")
         ]
       ],
       "Supplier": [
@@ -107,37 +107,28 @@ export class PrAddComponent implements OnInit {
         ]
       ],
       "IsPrePay": 'True',
-      "Goods": this.fb.array([])
+      //"Goods": this.fb.array([])
     });
-    this.setItems(this.Items);
+    //this.setItems(this.Items);
     this.mainForm.valueChanges
       .subscribe(data => this.onValueChanged(data));
     this.onValueChanged();
   }
 
-  setItems(items: PRItemModel[]) {
-    const item_group = items.map(item => this.fb.group(item));
-    const formArray = this.fb.array(item_group);
-    this.mainForm.setControl('Goods', formArray);
-  }
+  // setItems(items: PRItemModel[]) {
+  //   const item_group = items.map(item => this.fb.group(item));
+  //   const formArray = this.fb.array(item_group);
+  //   this.mainForm.setControl('Goods', formArray);
+  // }
 
-  getItems(): FormArray {
-    return this.mainForm.get('Goods') as FormArray;
-  };
+  // getItems(): FormArray {
+  //   return this.mainForm.get('Goods') as FormArray;
+  // };
 
-  delItem(index: number): void {
-    const arrayControl = <FormArray>this.mainForm.controls['Goods'];
-    arrayControl.removeAt(index);
-  }
-
-  showAddItemDlg(): void {
-    this.dlg.showChildModal();
-      // const arrayControl = <FormArray>this.mainForm.controls['Goods'];
-      // let newGroup = this.fb.group({
-      //     // Fill this in identically to the one in ngOnInit
-      // }
-      // arrayControl.push(newGroup);
-  }
+  // delItem(index: number): void {
+  //   const arrayControl = <FormArray>this.mainForm.controls['Goods'];
+  //   arrayControl.removeAt(index);
+  // }
 
   onValueChanged(data?: any) {
     if (!this.mainForm) { return; }
@@ -171,6 +162,29 @@ export class PrAddComponent implements OnInit {
     //    this.formErrors.formError = "存在不合法的输入项，请检查。";
     // }
     // console.log(this.userInfo);
+  }
+
+  addItem(): void {
+    this.currentitem = null;
+    this.dlg.show();
+  }
+
+  editItem(item: PRItemModel): void {
+    this.currentitem = item;
+    this.dlg.edit(item);
+  }
+
+  delItem(index: number): void {
+    this.Items.splice(index, 1);
+  }
+
+  onPRItemSave(item: PRItemModel): void {
+    debugger;
+    if (this.currentitem == null) {
+      this.Items.push(item);
+    } else {
+      this.currentitem = item;
+    }
   }
 
 }

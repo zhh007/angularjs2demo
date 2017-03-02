@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observer, Observable } from "rxjs/Rx";
 import { FormArray, FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,8 +12,8 @@ import { PRItemModel } from '../model/pritem.model'
 })
 export class PrItemAddComponent implements OnInit {
     public mainForm: FormGroup;
-    public currentitem: PRItemModel = new PRItemModel();
     @ViewChild('dlg') dlg: ModalDirective;
+    @Output() OnSave: EventEmitter<PRItemModel> = new EventEmitter<PRItemModel>();
 
     public formErrors = {
         'Name': '',
@@ -29,7 +29,7 @@ export class PrItemAddComponent implements OnInit {
         },
         'Price': {
             'required': '单价必须输入。',
-            'minlength': '请输入正确的单价。'
+            'pattern': '请输入正确的单价。'
         },
         'Count': {
             'required': '数量必须输入。',
@@ -52,8 +52,10 @@ export class PrItemAddComponent implements OnInit {
 
     buildForm(): void {
         this.mainForm = this.fb.group({
+            "ID": '0',
+            "PRID": '0',
             "Name": [
-                this.currentitem.Name,
+                '',
                 [
                     Validators.required,
                     Validators.minLength(2),
@@ -61,21 +63,21 @@ export class PrItemAddComponent implements OnInit {
                 ]
             ],
             "Price": [
-                this.currentitem.Price,
+                '',
                 [
                     Validators.required,
-                    Validators.pattern("/^\d+$/")
+                    //Validators.pattern("/^\d+$/")
                 ]
             ],
             "Count": [
-                this.currentitem.Count,
+                '',
                 [
                     Validators.required,
-                    Validators.pattern("/^\d+$/")
+                    //Validators.pattern("/^\d+$/")
                 ]
             ],
             "Remark": [
-                this.currentitem.Remark,
+                '',
                 [
                     Validators.maxLength(200)
                 ]
@@ -101,32 +103,34 @@ export class PrItemAddComponent implements OnInit {
         }
     }
 
-    public showChildModal(): void {
+    public show(): void {
+        this.mainForm.reset({
+            ID: 0,
+            PRID: 0
+        });
         this.dlg.show();
     }
 
-    public hideChildModal(): void {
+    public hide(): void {
         this.dlg.hide();
     }
 
-    doSave() {
-        // if (this.userForm.valid) {
-        //   this.userInfo = this.userForm.value;
-        //   this.userRegisterService.register(this.userInfo)
-        //     .subscribe(
-        //       data => {
-        //         this.router.navigateByUrl("home");
-        //       },
-        //       error => {
-        //         this.formErrors.formError = error.message;
-        //         console.error(error);
-        //       }
-        //     );
-        // }else{
-        //    this.formErrors.formError = "存在不合法的输入项，请检查。";
-        // }
-        // console.log(this.userInfo);
+    public edit(item: PRItemModel): void {
+        this.mainForm.reset({
+            ID: item.ID,
+            PRID: item.PRID,
+            Name: item.Name,
+            Price: item.Price,
+            Count: item.Count,
+            Remark: item.Remark
+        });
+        this.dlg.show();
     }
 
-
+    doSave() {
+        if (this.mainForm.valid) {
+            this.OnSave.emit(this.mainForm.value);
+            this.dlg.hide();
+        }
+    }
 }

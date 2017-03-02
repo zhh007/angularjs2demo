@@ -70,8 +70,8 @@
       </div>
       <hr />
       <div>
-        <div><button (click)="showAddItemDlg();">新增商品</button></div>
-        <table formArrayName="Goods" style="width:100%">
+        <div><button (click)="addItem();">新增商品</button></div>
+        <table style="width:100%">
           <tr>
             <th>商品名称</th>
             <th>单价</th>
@@ -79,7 +79,7 @@
             <th>价格</th>
             <th>备注</th>
           </tr>
-          <tr *ngFor="let p of mainForm.controls['Goods'].controls; let i=index" [formGroupName]="i">
+          <tr *ngFor="let p of Items; let i = index">
             <td>
               {{ p.Name }}
             </td>
@@ -96,7 +96,7 @@
               {{ p.Remark }}
             </td>
             <td>
-              <button type="button" class="btn btn-default">编辑</button>
+              <button type="button" class="btn btn-default" (click)="editItem(p)">编辑</button>
               <button type="button" class="btn btn-default" (click)="delItem(i)">删除</button>
             </td>
           </tr>
@@ -112,4 +112,4 @@
     </form>
   </div>
 </div>
-<pritem-add #dlg></pritem-add>
+<pritem-add #dlg (OnSave)='onPRItemSave($event)'></pritem-add>
