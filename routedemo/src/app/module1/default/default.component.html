@@ -1,0 +1,17 @@
+<p>
+  default works!
+</p>
+<nav>
+  <a [routerLink]="['one']">Component One</a>
+  <a [routerLink]="['two']">Component Two</a>
+  <a [routerLink]="[{ outlets: { 'sidebar': ['list'] } }]">list</a>
+</nav>
+<div style="color: green; margin-top: 1rem;">Outlet:</div>
+<div style="border: 2px solid green; padding: 1rem;">
+  <router-outlet></router-outlet>
+</div>
+
+<div style="color: green; margin-top: 1rem;">Sidebar Outlet:</div>
+<div style="border: 2px solid blue; padding: 1rem;">
+  <router-outlet name="sidebar"></router-outlet>
+</div>
