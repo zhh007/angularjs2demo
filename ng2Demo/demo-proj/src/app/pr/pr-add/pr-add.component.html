@@ -1,0 +1,116 @@
+<h4>
+  添加采购单
+</h4>
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-horizontal" [formGroup]="mainForm" (ngSubmit)="doSave()" novalidate>
+      <input type="hidden" formControlName="ID">
+      <div class="form-group" [ngClass]="{'has-error': formErrors.User }">
+        <label class="col-sm-3 control-label">
+              申请人<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <input required formControlName="User" type="text" class="form-control" style="width:350px" />
+          <span *ngIf="formErrors.User" class="text-danger">
+                {{ formErrors.User }}
+            </span>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': formErrors.Deptment }">
+        <label class="col-sm-3 control-label">
+              申请人部门<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <input required formControlName="Deptment" type="text" class="form-control" style="width:350px" />
+          <span *ngIf="formErrors.Deptment" class="text-danger">
+                {{ formErrors.Deptment }}
+            </span>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': formErrors.Phone }">
+        <label class="col-sm-3 control-label">
+              联系电话<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <input required formControlName="Phone" type="text" class="form-control" style="width:350px" />
+          <span *ngIf="formErrors.Phone" class="text-danger">
+                {{ formErrors.Phone }}
+            </span>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': formErrors.Supplier }">
+        <label class="col-sm-3 control-label">
+              供应商<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <input required formControlName="Supplier" type="text" class="form-control" style="width:350px" />
+          <span *ngIf="formErrors.Supplier" class="text-danger">
+                {{ formErrors.Supplier }}
+            </span>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': formErrors.SupplierAddress }">
+        <label class="col-sm-3 control-label">
+              供应商地址<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <input required formControlName="SupplierAddress" type="text" class="form-control" style="width:350px" />
+          <span *ngIf="formErrors.SupplierAddress" class="text-danger">
+                {{ formErrors.SupplierAddress }}
+            </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">
+              是否预付款<span style="color: #F00">*</span>
+          </label>
+        <div class="col-sm-9">
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="true" checked="checked"> 是 </label>
+          <label class="radio-inline"><input type="radio" formControlName="IsPrePay" value="false"> 否 </label>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <div><a (click)="addItem();">新增商品</a></div>
+        <table style="width:100%">
+          <tr>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>价格</th>
+            <th>备注</th>
+          </tr>
+          <tr *ngFor="let p of Items; let i = index">
+            <td>
+              {{ p.Name }}
+            </td>
+            <td>
+              {{ p.Price }}
+            </td>
+            <td>
+              {{ p.Count }}
+            </td>
+            <td>
+              {{ p.Amount }}
+            </td>
+            <td>
+              {{ p.Remark }}
+            </td>
+            <td>
+              <button type="button" class="btn btn-default" (click)="editItem(i)">编辑</button>
+              <button type="button" class="btn btn-default" (click)="delItem(i)">删除</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <hr />
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-8">
+          <input [disabled]="mainForm.invalid" type="submit" class="btn btn-primary btn-post" value="确定">
+          <button type="button" class="btn btn-default" (click)="goBack()">取消</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<pritem-add #dlg (OnSave)='onPRItemSave($event)'></pritem-add>
